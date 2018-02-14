@@ -341,6 +341,12 @@ namespace Valve.VR.InteractionSystem
 				hitTeleportMarker = null;
 			}
 
+			if (NetworkPlayer.Local != null &&
+				Vector3.Distance(hitInfo.point, player.hmdTransform.position) > PlayerTeleport.Local.AvailableTeleportDistance)
+			{
+				hitTeleportMarker = null;
+			}
+
 			HighlightSelected( hitTeleportMarker );
 
 			if ( hitTeleportMarker != null ) //Hit a teleport marker
@@ -815,6 +821,9 @@ namespace Valve.VR.InteractionSystem
 					//Pointing at an unlocked teleport marker
 					teleportingToMarker = pointedAtTeleportMarker;
 					InitiateTeleportFade();
+
+					if (PlayerTeleport.Local != null)
+						PlayerTeleport.Local.HandleTeleportCompleted();
 
 					CancelTeleportHint();
 				}
