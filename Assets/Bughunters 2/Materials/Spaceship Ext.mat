@@ -73,7 +73,7 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
-    - _Metallic: 1
+    - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OcclusionStrengthDirectDiffuse: 1
@@ -91,7 +91,7 @@ Material:
     - g_bRenderBackfaces: 0
     - g_bUnlit: 0
     - g_bWorldAlignedTexture: 0
-    - g_flCubeMapScalar: 1
+    - g_flCubeMapScalar: 0
     - g_flReflectanceBias: 0
     - g_flReflectanceMax: 1
     - g_flReflectanceMin: 0
