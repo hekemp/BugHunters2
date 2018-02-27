@@ -13,9 +13,17 @@ public class CameraMover : MonoBehaviour {
     private Vector3 origin;
     private Vector3 initialPosition;
 
+    private Vector3 targetPosition;
+    private Quaternion targetRotation;
+
+    public Vector3 diff;
+
+    private Rigidbody rb;
+
 	// Use this for initialization
 	void Start () {
         initialPosition = transform.position;
+        rb = this.GetComponent<Rigidbody>();
         ResetPosition();
 	}
 	
@@ -26,17 +34,23 @@ public class CameraMover : MonoBehaviour {
             ResetPosition();
         }
 
-        // TODO: This changes rotation based on where you're looking...might need to fix
-        Vector3 diff = Quaternion.Inverse(headset.localRotation) * (headset.localPosition - origin);
+        diff = headset.localPosition - origin;
+
         Debug.Log(diff.x);
         if (Mathf.Abs(diff.x) > 0.05f)
         {
             theta += Time.deltaTime * speed * (diff.x - (Mathf.Sign(diff.x) * 0.05f));
         }
 
-        this.transform.position = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition;
-        this.transform.rotation = Quaternion.Euler(0, Mathf.Rad2Deg * theta, 0);
+        targetPosition = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition;
+        targetRotation = Quaternion.Euler(0, Mathf.Rad2Deg * theta, 0);
 	}
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(targetPosition);
+        rb.MoveRotation(targetRotation);
+    }
 
     void ResetPosition()
     {
