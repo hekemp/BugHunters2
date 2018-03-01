@@ -75,6 +75,9 @@ namespace Valve.VR.InteractionSystem
 		[Tooltip( "The output angle value of the drive in degrees, unlimited will increase or decrease without bound, take the 360 modulus to find number of rotations" )]
 		public float outAngle;
 
+        [Tooltip( "The transform of the parent object; this serves to rotate worldPlaneNormal" )]
+        public Transform parentTransform;
+
 		private Quaternion start;
 
 		private Vector3 worldPlaneNormal = new Vector3( 1.0f, 0.0f, 0.0f );
@@ -275,7 +278,8 @@ namespace Valve.VR.InteractionSystem
 			// Need a non-zero distance from the hand to the center of the CircularDrive
 			if ( toTransform.sqrMagnitude > 0.0f )
 			{
-				toTransformProjected = Vector3.ProjectOnPlane( toTransform, worldPlaneNormal ).normalized;
+                Vector3 rotatedWorldPlaneNormal = parentTransform.rotation * worldPlaneNormal;
+				toTransformProjected = Vector3.ProjectOnPlane( toTransform, rotatedWorldPlaneNormal).normalized;
 			}
 			else
 			{
@@ -461,7 +465,8 @@ namespace Valve.VR.InteractionSystem
 					else
 					{
 						Vector3 cross = Vector3.Cross( lastHandProjected, toHandProjected ).normalized;
-						float dot = Vector3.Dot( worldPlaneNormal, cross );
+                        Vector3 rotatedWorldPlaneNormal = parentTransform.rotation * worldPlaneNormal;
+                        float dot = Vector3.Dot(rotatedWorldPlaneNormal, cross );
 
 						float signedAngleDelta = absAngleDelta;
 
