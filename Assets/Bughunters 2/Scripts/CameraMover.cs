@@ -10,13 +10,14 @@ public class CameraMover : MonoBehaviour {
     public Transform player;
     public Transform headset;
 
-    private Vector3 origin;
+    public Vector3 origin;
     private Vector3 initialPosition;
 
     private Vector3 targetPosition;
     private Quaternion targetRotation;
 
     public Vector3 diff;
+    public float offsetDeadZone = 0.05f;
 
     private Rigidbody rb;
 
@@ -29,17 +30,17 @@ public class CameraMover : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetKey(KeyCode.JoystickButton0) && Input.GetKey(KeyCode.JoystickButton2))
+        if((Input.GetKey(KeyCode.JoystickButton0) && Input.GetKey(KeyCode.JoystickButton2)) || Input.GetKey(KeyCode.Space))
         {
             ResetPosition();
         }
 
-        diff = headset.localPosition - origin;
+        diff = Quaternion.Inverse(transform.rotation) * headset.position - origin;
 
         Debug.Log(diff.x);
-        if (Mathf.Abs(diff.x) > 0.05f)
+        if (Mathf.Abs(diff.x) > offsetDeadZone)
         {
-            theta += Time.deltaTime * speed * (diff.x - (Mathf.Sign(diff.x) * 0.05f));
+            theta += Time.deltaTime * speed * (diff.x - (Mathf.Sign(diff.x) * offsetDeadZone));
         }
 
         targetPosition = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition;
@@ -61,6 +62,7 @@ public class CameraMover : MonoBehaviour {
         diff = headset.rotation.eulerAngles - transform.rotation.eulerAngles;
         diff.x = diff.z = 0;
         player.rotation = Quaternion.Euler(player.rotation.eulerAngles - diff);
-        origin = headset.localPosition;
+
+        origin = Quaternion.Inverse(transform.rotation) * headset.position;
     }
 }
