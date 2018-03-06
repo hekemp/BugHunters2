@@ -15,7 +15,13 @@ namespace Valve.VR.InteractionSystem
 	[RequireComponent( typeof( Interactable ) )]
 	public class CircularDrive : MonoBehaviour
 	{
-		public enum Axis_t
+        public delegate void OnGrabbedByHandDelegate(Hand hand);
+        public delegate void OnReleasedByHandDelegate(Hand hand);
+
+        public event OnGrabbedByHandDelegate onGrabbedByHand;
+        public event OnReleasedByHandDelegate onReleasedByHand;
+
+        public enum Axis_t
 		{
 			XAxis,
 			YAxis,
@@ -228,7 +234,12 @@ namespace Valve.VR.InteractionSystem
 
 			driving = false;
 			handHoverLocked = null;
-		}
+
+            if (onReleasedByHand != null)
+            {
+                onReleasedByHand.Invoke(hand);
+            }
+        }
 
 
 		//-------------------------------------------------
@@ -251,7 +262,12 @@ namespace Valve.VR.InteractionSystem
 				UpdateAll();
 
 				ControllerButtonHints.HideButtonHint( hand, Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger );
-			}
+
+                if(onGrabbedByHand != null)
+                {
+                    onGrabbedByHand.Invoke(hand);
+                }
+            }
 			else if ( hand.GetStandardInteractionButtonUp() )
 			{
 				// Trigger was just released
@@ -260,6 +276,11 @@ namespace Valve.VR.InteractionSystem
 					hand.HoverUnlock( GetComponent<Interactable>() );
 					handHoverLocked = null;
 				}
+
+                if(onReleasedByHand != null)
+                {
+                    onReleasedByHand.Invoke(hand);
+                }
 			}
 			else if ( driving && hand.GetStandardInteractionButton() && hand.hoveringInteractable == GetComponent<Interactable>() )
 			{

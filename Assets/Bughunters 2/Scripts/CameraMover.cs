@@ -37,7 +37,6 @@ public class CameraMover : MonoBehaviour {
 
         diff = Quaternion.Inverse(transform.rotation) * headset.position - origin;
 
-        Debug.Log(diff.x);
         if (Mathf.Abs(diff.x) > offsetDeadZone)
         {
             theta += Time.deltaTime * speed * (diff.x - (Mathf.Sign(diff.x) * offsetDeadZone));
