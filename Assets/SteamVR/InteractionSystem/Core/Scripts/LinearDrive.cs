@@ -62,9 +62,11 @@ namespace Valve.VR.InteractionSystem
 		{
 			if ( hand.GetStandardInteractionButtonDown() )
 			{
-				hand.HoverLock( GetComponent<Interactable>() );
+                //hand.HoverLock( GetComponent<Interactable>() );
+                hand.HoverUnlock(GetComponent<Interactable>());
+                //hand.HoverLock( null);
 
-				initialMappingOffset = linearMapping.value - CalculateLinearMapping( hand.transform );
+                initialMappingOffset = linearMapping.value - CalculateLinearMapping( hand.transform );
 				sampleCount = 0;
 				mappingChangeRate = 0.0f;
 			}

@@ -20,6 +20,7 @@ public class CameraMover : MonoBehaviour {
     public float offsetDeadZone = 0.05f;
 
     private Rigidbody rb;
+    public Rigidbody shipRB;
 
 	// Use this for initialization
 	void Start () {
@@ -48,8 +49,12 @@ public class CameraMover : MonoBehaviour {
 
     void FixedUpdate()
     {
-        rb.MovePosition(targetPosition);
-        rb.MoveRotation(targetRotation);
+        //rb.MovePosition(targetPosition + shipRB.position);
+        Debug.Log(targetPosition + shipRB.position);
+        rb.MovePosition(shipRB.position);
+        
+        //rb.MoveRotation(targetRotation);
+        //Debug.Log(targetRotation);
     }
 
     void ResetPosition()
