@@ -8,7 +8,9 @@ public class ShipSteering : MonoBehaviour {
     public float maxSpeed = 10f;
     public float angle = 0f;
 
-    public Valve.VR.InteractionSystem.CircularDrive wheel;
+    //public Valve.VR.InteractionSystem.CircularDrive wheel;
+    public Valve.VR.InteractionSystem.CircularDrive leftJoystick;
+    public Valve.VR.InteractionSystem.CircularDrive rightJoystick;
 
     public Valve.VR.InteractionSystem.LinearDrive throttle;
     public float maxThrottle = 5f;
@@ -26,27 +28,46 @@ public class ShipSteering : MonoBehaviour {
 	void Start () {
         rb = GetComponent<Rigidbody>();
 
-        wheel.onGrabbedByHand += onAttachedToHand;
-        wheel.onReleasedByHand += onDetachedFromHand;
-	}
+        leftJoystick.onGrabbedByHand += onAttachedToHandLeft;
+        leftJoystick.onReleasedByHand += onDetachedFromHandLeft;
 
-    void onAttachedToHand(Valve.VR.InteractionSystem.Hand hand)
+        rightJoystick.onGrabbedByHand += onAttachedToHandRight;
+        rightJoystick.onReleasedByHand += onDetachedFromHandRight;
+
+        //wheel.onGrabbedByHand += onAttachedToHand;
+        //wheel.onReleasedByHand += onDetachedFromHand;
+    }
+
+    void onAttachedToHandLeft(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("ATTACHED");
         isHandled = true;
     }
 
-    void onDetachedFromHand(Valve.VR.InteractionSystem.Hand hand)
+    void onAttachedToHandRight(Valve.VR.InteractionSystem.Hand hand)
+    {
+        Debug.Log("ATTACHED");
+        isHandled = true;
+    }
+
+    void onDetachedFromHandLeft(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("DETACHED");
         isHandled = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void onDetachedFromHandRight(Valve.VR.InteractionSystem.Hand hand)
+    {
+        Debug.Log("DETACHED");
+        isHandled = false;
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (isHandled)
         {
-            angle += wheel.outAngle * Time.deltaTime / 100f;
+            angle = 0;
+            //angle += wheel.outAngle * Time.deltaTime / 100f;
         }
 
         thruster.localPosition = new Vector3(Mathf.Sin(angle + 180) * thrusterOffset, 1.5f, Mathf.Cos(angle + 180) * thrusterOffset);
