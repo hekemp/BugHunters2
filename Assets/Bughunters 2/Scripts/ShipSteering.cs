@@ -65,17 +65,7 @@ public class ShipSteering : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        // -.27 is to the right, .27 is to the left.
-        if (!leftIsHandled)
-        {
-            //TODO: Return to origin
-        }
-
-
-        if (!rightIsHandled)
-        {
-            // TODO: Return to origin
-        }
+        
 
         angle += (leftJoystick.outAngle + rightJoystick.outAngle) * Time.deltaTime / 100f;
         //thruster.localPosition = new Vector3(Mathf.Sin((-angle) + 180) * thrusterOffset, 1.5f, Mathf.Cos((-angle) + 180) * thrusterOffset);
@@ -135,6 +125,20 @@ public class ShipSteering : MonoBehaviour {
 
         thruster.position = rb.transform.position + rb.transform.forward * -thrusterOffset;
         thruster.rotation = rb.transform.rotation;
+
+        // -.27 is to the right, .27 is to the left.
+        if (!leftIsHandled)
+        {
+            //TODO: Return to origin
+        }
+
+
+        if (!rightIsHandled)
+        {
+            // TODO: Return to origin
+            Debug.Log(rightJoystick.transform.rotation);
+            rightJoystick.transform.rotation = Quaternion.Euler(rightJoystick.transform.rotation.x * 57f - .001f, rightJoystick.transform.rotation.y, rightJoystick.transform.rotation.z);
+        }
 
         //playerRB.MovePosition(playerRB.position + Vector3.forward * .01f);
         //playerRB.position = playerRB.position + Vector3.forward * .01f;
