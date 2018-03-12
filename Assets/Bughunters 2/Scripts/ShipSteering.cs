@@ -22,7 +22,8 @@ public class ShipSteering : MonoBehaviour {
     private Rigidbody rb;
     public Rigidbody playerRB;
 
-    bool isHandled;
+    bool leftIsHandled;
+    bool rightIsHandled;
 
 	// Use this for initialization
 	void Start () {
@@ -41,37 +42,59 @@ public class ShipSteering : MonoBehaviour {
     void onAttachedToHandLeft(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("ATTACHED");
-        isHandled = true;
+        leftIsHandled = true;
     }
 
     void onAttachedToHandRight(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("ATTACHED");
-        isHandled = true;
+        rightIsHandled = true;
     }
 
     void onDetachedFromHandLeft(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("DETACHED");
-        isHandled = false;
+        leftIsHandled = false;
     }
 
     void onDetachedFromHandRight(Valve.VR.InteractionSystem.Hand hand)
     {
         Debug.Log("DETACHED");
-        isHandled = false;
+        rightIsHandled = false;
     }
 
     // Update is called once per frame
     void Update () {
-        if (isHandled)
+        // -.27 is to the right, .27 is to the left.
+        if (leftIsHandled)
         {
-            angle = 0;
-            //angle += wheel.outAngle * Time.deltaTime / 100f;
+
+        }
+        else
+        {
+            //TODO: Return to origin
         }
 
-        thruster.localPosition = new Vector3(Mathf.Sin(angle + 180) * thrusterOffset, 1.5f, Mathf.Cos(angle + 180) * thrusterOffset);
-        thruster.localRotation = Quaternion.Euler(0, -angle, 0);
+        if (rightIsHandled)
+        {
+
+        }
+        else
+        {
+            // TODO: Return to origin
+        }
+
+        Debug.Log(rightJoystick.transform.rotation.x);
+        Debug.Log(rightIsHandled);
+        //if (isHandled)
+        //{
+        //    angle = 0;
+            //angle += wheel.outAngle * Time.deltaTime / 100f;
+        //}
+
+        //thruster.localPosition = new Vector3(Mathf.Sin(angle + 180) * thrusterOffset, 1.5f, Mathf.Cos(angle + 180) * thrusterOffset);
+        //thruster.localRotation = Quaternion.Euler(0, -angle, 0);
+        
         //rb.MoveRotation(Quaternion.Euler(0, wheel.outAngle, 0));
 
         // TODO: Throttle!
@@ -80,8 +103,8 @@ public class ShipSteering : MonoBehaviour {
         // .13 = full forward, -.13 is rest
         float currentThrottle = throttle.transform.localPosition.x + .13f;
 
-        Debug.Log(currentThrust);
-        Debug.Log(.05 * maxThrottle);
+        //Debug.Log(currentThrust);
+        //Debug.Log(.05 * maxThrottle);
 
         if (currentThrottle < .03 && currentThrust < .05 * maxThrottle)
         {
