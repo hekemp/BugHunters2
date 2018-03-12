@@ -50,7 +50,7 @@ public class CameraMover : MonoBehaviour {
     void FixedUpdate()
     {
         //rb.MovePosition(targetPosition + shipRB.position);
-        Debug.Log(targetPosition + shipRB.position);
+        //Debug.Log(targetPosition + shipRB.position);
         rb.MovePosition(shipRB.position);
         
         //rb.MoveRotation(targetRotation);

@@ -66,35 +66,33 @@ public class ShipSteering : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         // -.27 is to the right, .27 is to the left.
-        if (leftIsHandled)
-        {
-
-        }
-        else
+        if (!leftIsHandled)
         {
             //TODO: Return to origin
         }
 
-        if (rightIsHandled)
-        {
 
-        }
-        else
+        if (!rightIsHandled)
         {
             // TODO: Return to origin
         }
 
-        Debug.Log(rightJoystick.transform.rotation.x);
-        Debug.Log(rightIsHandled);
+        angle += (leftJoystick.outAngle + rightJoystick.outAngle) * Time.deltaTime / 100f;
+        //thruster.localPosition = new Vector3(Mathf.Sin((-angle) + 180) * thrusterOffset, 1.5f, Mathf.Cos((-angle) + 180) * thrusterOffset);
+        
+        //thruster.localRotation = Quaternion.Euler(0, -angle, 0);
+
+        
+
         //if (isHandled)
         //{
         //    angle = 0;
-            //angle += wheel.outAngle * Time.deltaTime / 100f;
+        //angle += wheel.outAngle * Time.deltaTime / 100f;
         //}
 
         //thruster.localPosition = new Vector3(Mathf.Sin(angle + 180) * thrusterOffset, 1.5f, Mathf.Cos(angle + 180) * thrusterOffset);
         //thruster.localRotation = Quaternion.Euler(0, -angle, 0);
-        
+
         //rb.MoveRotation(Quaternion.Euler(0, wheel.outAngle, 0));
 
         // TODO: Throttle!
@@ -132,6 +130,12 @@ public class ShipSteering : MonoBehaviour {
         //rb.AddRelativeForce(Vector3.forward * currentThrust);
 
         rb.MovePosition(rb.position + rb.transform.forward * currentThrust);
+        rb.MoveRotation(Quaternion.Euler(0, -angle * 70, 0));
+        Debug.Log(Quaternion.Euler(0, -angle, 0));
+
+        thruster.position = rb.transform.position + rb.transform.forward * -thrusterOffset;
+        thruster.rotation = rb.transform.rotation;
+
         //playerRB.MovePosition(playerRB.position + Vector3.forward * .01f);
         //playerRB.position = playerRB.position + Vector3.forward * .01f;
     }
