@@ -136,8 +136,8 @@ public class ShipSteering : MonoBehaviour {
         if (!rightIsHandled)
         {
             // TODO: Return to origin
-            Debug.Log(rightJoystick.transform.rotation);
-            rightJoystick.transform.rotation = Quaternion.Euler(rightJoystick.transform.rotation.x * 57f - .001f, rightJoystick.transform.rotation.y, rightJoystick.transform.rotation.z);
+            //Debug.Log(rightJoystick.transform.rotation);
+            //rightJoystick.transform.rotation = Quaternion.Euler(rightJoystick.transform.rotation.x * 57f - .001f, rightJoystick.transform.rotation.y, rightJoystick.transform.rotation.z);
         }
 
         //playerRB.MovePosition(playerRB.position + Vector3.forward * .01f);
