@@ -20,7 +20,10 @@ namespace Valve.VR.InteractionSystem
 		public bool maintainMomemntum = true;
 		public float momemtumDampenRate = 5.0f;
 
-		private float initialMappingOffset;
+        [Tooltip("The button used to interact with the object")]
+        public Valve.VR.EVRButtonId interactButton = EVRButtonId.k_EButton_Grip;
+
+        private float initialMappingOffset;
 		private int numMappingChangeSamples = 5;
 		private float[] mappingChangeSamples;
 		private float prevMapping = 0.0f;
@@ -60,7 +63,7 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private void HandHoverUpdate( Hand hand )
 		{
-			if ( hand.GetStandardInteractionButtonDown() )
+			if ( hand.controller.GetPressDown(interactButton) )
 			{
                 //hand.HoverLock( GetComponent<Interactable>() );
                 hand.HoverUnlock(GetComponent<Interactable>());
@@ -69,16 +72,16 @@ namespace Valve.VR.InteractionSystem
                 initialMappingOffset = linearMapping.value - CalculateLinearMapping( hand.transform );
 				sampleCount = 0;
 				mappingChangeRate = 0.0f;
-			}
+            }
 
-			if ( hand.GetStandardInteractionButtonUp() )
+			if ( hand.controller.GetPressUp(interactButton) )
 			{
 				hand.HoverUnlock( GetComponent<Interactable>() );
 
 				CalculateMappingChangeRate();
-			}
+            }
 
-			if ( hand.GetStandardInteractionButton() )
+			if ( hand.controller.GetPress(interactButton) )
 			{
 				UpdateLinearMapping( hand.transform );
 			}

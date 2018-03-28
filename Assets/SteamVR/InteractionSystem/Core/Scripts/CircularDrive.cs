@@ -84,7 +84,10 @@ namespace Valve.VR.InteractionSystem
         [Tooltip( "The transform of the parent object; this serves to rotate worldPlaneNormal" )]
         public Transform parentTransform;
 
-		private Quaternion start;
+        [Tooltip("The button used to interact with the object")]
+        public Valve.VR.EVRButtonId interactButton = EVRButtonId.k_EButton_Grip;
+
+        private Quaternion start;
 
 		private Vector3 worldPlaneNormal = new Vector3( 1.0f, 0.0f, 0.0f );
 		private Vector3 localPlaneNormal = new Vector3( 1.0f, 0.0f, 0.0f );
@@ -190,7 +193,7 @@ namespace Valve.VR.InteractionSystem
 		{
 			if ( handHoverLocked )
 			{
-				ControllerButtonHints.HideButtonHint( handHoverLocked, Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger );
+				ControllerButtonHints.HideButtonHint( handHoverLocked, interactButton );
 				handHoverLocked.HoverUnlock( GetComponent<Interactable>() );
 				handHoverLocked = null;
 			}
@@ -218,14 +221,14 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private void OnHandHoverBegin( Hand hand )
 		{
-			ControllerButtonHints.ShowButtonHint( hand, Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger );
+			ControllerButtonHints.ShowButtonHint( hand, interactButton );
 		}
 
 
 		//-------------------------------------------------
 		private void OnHandHoverEnd( Hand hand )
 		{
-			ControllerButtonHints.HideButtonHint( hand, Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger );
+			ControllerButtonHints.HideButtonHint( hand, interactButton );
 
 			if ( driving && hand.GetStandardInteractionButton() )
 			{
@@ -245,7 +248,7 @@ namespace Valve.VR.InteractionSystem
 		//-------------------------------------------------
 		private void HandHoverUpdate( Hand hand )
 		{
-			if ( hand.GetStandardInteractionButtonDown() )
+			if ( hand.controller.GetPressDown(interactButton) )
 			{
 				// Trigger was just pressed
 				lastHandProjected = ComputeToTransformProjected( hand.hoverSphereTransform );
@@ -261,14 +264,14 @@ namespace Valve.VR.InteractionSystem
 				ComputeAngle( hand );
 				UpdateAll();
 
-				ControllerButtonHints.HideButtonHint( hand, Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger );
+				ControllerButtonHints.HideButtonHint( hand, interactButton );
 
                 if(onGrabbedByHand != null)
                 {
                     onGrabbedByHand.Invoke(hand);
                 }
             }
-			else if ( hand.GetStandardInteractionButtonUp() )
+			else if ( hand.controller.GetPressDown(interactButton) )
 			{
 				// Trigger was just released
 				if ( hoverLock )
@@ -282,7 +285,7 @@ namespace Valve.VR.InteractionSystem
                     onReleasedByHand.Invoke(hand);
                 }
 			}
-			else if ( driving && hand.GetStandardInteractionButton() && hand.hoveringInteractable == GetComponent<Interactable>() )
+			else if ( driving && hand.controller.GetPress(interactButton) && hand.hoveringInteractable == GetComponent<Interactable>() )
 			{
 				ComputeAngle( hand );
 				UpdateAll();
