@@ -24,7 +24,7 @@ public class CameraMover : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        initialPosition = transform.position;
+        initialPosition = transform.position - shipRB.transform.position;
         rb = this.GetComponent<Rigidbody>();
         ResetPosition();
 	}
@@ -36,14 +36,16 @@ public class CameraMover : MonoBehaviour {
             ResetPosition();
         }
 
-        diff = Quaternion.Inverse(transform.rotation) * headset.position - origin;
+        diff = GetLocalHeadsetPosition() - origin;
+
+        Debug.DrawLine(GetLocalHeadsetPosition(), origin, Color.red);
 
         if (Mathf.Abs(diff.x) > offsetDeadZone)
         {
             theta += Time.deltaTime * speed * (diff.x - (Mathf.Sign(diff.x) * offsetDeadZone));
         }
 
-        targetPosition = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition;
+        targetPosition = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition + shipRB.transform.position;
         targetRotation = Quaternion.Euler(0, Mathf.Rad2Deg * theta, 0);
 	}
 
@@ -51,9 +53,8 @@ public class CameraMover : MonoBehaviour {
     {
         //rb.MovePosition(targetPosition + shipRB.position);
         //Debug.Log(targetPosition + shipRB.position);
-        rb.MovePosition(shipRB.position);
-        
-        //rb.MoveRotation(targetRotation);
+        rb.MovePosition(targetPosition);
+        rb.MoveRotation(targetRotation);
         //Debug.Log(targetRotation);
     }
 
@@ -67,6 +68,11 @@ public class CameraMover : MonoBehaviour {
         diff.x = diff.z = 0;
         player.rotation = Quaternion.Euler(player.rotation.eulerAngles - diff);
 
-        origin = Quaternion.Inverse(transform.rotation) * headset.position;
+        origin = GetLocalHeadsetPosition();
+    }
+
+    Vector3 GetLocalHeadsetPosition()
+    {
+        return Quaternion.Inverse(transform.rotation) * (headset.position - transform.position);
     }
 }
