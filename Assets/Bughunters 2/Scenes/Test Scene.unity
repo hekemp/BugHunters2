@@ -3171,6 +3171,7 @@ MonoBehaviour:
   thruster: {fileID: 1891475665}
   thrusterOffset: 7
   shipRigidbody: {fileID: 1801588697}
+  userConsole: {fileID: 825398621}
 --- !u!1 &1232833895
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,7 +4160,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677476252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.974227, y: 14.082954, z: 2.78329}
+  m_LocalPosition: {x: -0.18946266, y: 3.4450083, z: 20.48853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755089781}
@@ -4647,7 +4648,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1971025884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.974227, y: 14.082954, z: 2.78329}
+  m_LocalPosition: {x: -0.18946266, y: 3.4450083, z: 20.48853}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 337723898}

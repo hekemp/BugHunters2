@@ -23,6 +23,8 @@ public class SteeringModule : ControlModule {
     bool leftIsHandled;
     bool rightIsHandled;
 
+    public Transform userConsole;
+
 	// Use this for initialization
 	void Start () {
         leftJoystick.onGrabbedByHand += onAttachedToHandLeft;
@@ -69,9 +71,15 @@ public class SteeringModule : ControlModule {
         {
             currentAngle = -1f * thrusterAngleRange / 2f;
         }
-        float currentAngleRadians = (currentAngle + 180f) * Mathf.Deg2Rad;
+
+        Debug.Log(userConsole.transform.eulerAngles.y);
+
+
+
+        float currentAngleRadians = (userConsole.transform.eulerAngles.y + currentAngle + 180f) * Mathf.Deg2Rad;
+
         thruster.transform.localPosition = new Vector3(Mathf.Sin(currentAngleRadians) * thrusterOffset, thruster.transform.localPosition.y, Mathf.Cos(currentAngleRadians) * thrusterOffset);
-        thruster.transform.localRotation = Quaternion.Euler(0f, currentAngle, 0f);
+        thruster.transform.localRotation = Quaternion.Euler(0f, currentAngle + userConsole.transform.eulerAngles.y, 0f);
 
         // .13 = full forward, -.13 is rest
         float throttleOffset = 0.26f;
