@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Window
-  m_Shader: {fileID: 4800000, guid: 6562ed1722964fc4fa4eba1d756e19b7, type: 3}
+  m_Shader: {fileID: 4800000, guid: 730d2affbc06b1f4784ef3c05c768b76, type: 3}
   m_ShaderKeywords: S_RECEIVE_SHADOWS S_SPECULAR_METALLIC _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 89e1b1c005d29cf4598ea861deb35a80, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -60,10 +60,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Refraction:
-        m_Texture: {fileID: 2800000, guid: bbab0a6f7bae9cf42bf057d8ee2755f6, type: 3}
+        m_Texture: {fileID: 2800000, guid: e00d5a9a0944134448432ccacf221b95, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _node_360:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -79,13 +83,17 @@ Material:
     - _DstBlend: 10
     - _FogMultiplier: 1
     - _FresnelFalloff: 10
-    - _Gloss: 0.8717949
+    - _FresnelGlossExponent: 1.5
+    - _FresnelGlossImpact: 0.7
+    - _Gloss: 0.95
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _IOR: 0.33
-    - _Metallic: 0
+    - _Metallic: 0.75
     - _Mode: 3
+    - _NormalIntensity: 0.041
+    - _NormalMapIntensity: 0.13
     - _OcclusionStrength: 1
     - _OcclusionStrengthDirectDiffuse: 1
     - _OcclusionStrengthDirectSpecular: 1
@@ -93,7 +101,8 @@ Material:
     - _OcclusionStrengthIndirectSpecular: 1
     - _Opacity: 0.073
     - _Parallax: 0.02
-    - _RefractionIntensity: 0.061
+    - _Refraction: 0.08
+    - _RefractionIntensity: 0.01
     - _Roughness: 0.92
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
