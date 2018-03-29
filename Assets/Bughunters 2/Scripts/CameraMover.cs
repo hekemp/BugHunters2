@@ -19,13 +19,11 @@ public class CameraMover : MonoBehaviour {
     public Vector3 diff;
     public float offsetDeadZone = 0.05f;
 
-    private Rigidbody rb;
     public Rigidbody shipRB;
 
 	// Use this for initialization
 	void Start () {
         initialPosition = transform.position - shipRB.transform.position;
-        rb = this.GetComponent<Rigidbody>();
         ResetPosition();
 	}
 	
@@ -47,16 +45,10 @@ public class CameraMover : MonoBehaviour {
 
         targetPosition = new Vector3(Mathf.Sin(theta) * radius, 0, Mathf.Cos(theta) * radius) + initialPosition + shipRB.transform.position;
         targetRotation = Quaternion.Euler(0, Mathf.Rad2Deg * theta, 0);
-	}
 
-    void FixedUpdate()
-    {
-        //rb.MovePosition(targetPosition + shipRB.position);
-        //Debug.Log(targetPosition + shipRB.position);
-        rb.MovePosition(targetPosition);
-        rb.MoveRotation(targetRotation);
-        //Debug.Log(targetRotation);
-    }
+        transform.position = targetPosition;
+        transform.rotation = targetRotation;
+	}
 
     void ResetPosition()
     {

@@ -20,44 +20,11 @@ public class SteeringModule : ControlModule {
 
     public Rigidbody shipRigidbody;
 
-    bool leftIsHandled;
-    bool rightIsHandled;
-
     public Transform userConsole;
 
 	// Use this for initialization
 	void Start () {
-        leftJoystick.onGrabbedByHand += onAttachedToHandLeft;
-        leftJoystick.onReleasedByHand += onDetachedFromHandLeft;
-
-        rightJoystick.onGrabbedByHand += onAttachedToHandRight;
-        rightJoystick.onReleasedByHand += onDetachedFromHandRight;
-
         currentAngle = 0f;
-    }
-
-    void onAttachedToHandLeft(Valve.VR.InteractionSystem.Hand hand)
-    {
-        Debug.Log("ATTACHED");
-        leftIsHandled = true;
-    }
-
-    void onAttachedToHandRight(Valve.VR.InteractionSystem.Hand hand)
-    {
-        Debug.Log("ATTACHED");
-        rightIsHandled = true;
-    }
-
-    void onDetachedFromHandLeft(Valve.VR.InteractionSystem.Hand hand)
-    {
-        Debug.Log("DETACHED");
-        leftIsHandled = false;
-    }
-
-    void onDetachedFromHandRight(Valve.VR.InteractionSystem.Hand hand)
-    {
-        Debug.Log("DETACHED");
-        rightIsHandled = false;
     }
 
     // Update is called once per frame
@@ -71,10 +38,6 @@ public class SteeringModule : ControlModule {
         {
             currentAngle = -1f * thrusterAngleRange / 2f;
         }
-
-        Debug.Log(userConsole.transform.eulerAngles.y);
-
-
 
         float currentAngleRadians = (userConsole.transform.eulerAngles.y + currentAngle + 180f) * Mathf.Deg2Rad;
 
