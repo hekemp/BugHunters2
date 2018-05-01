@@ -8396,11 +8396,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11401046, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: showDebugText
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11450312, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: showDebugText
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 13693334, guid: dc06161b6d97feb419f45f03b62e14b9, type: 2}
       propertyPath: m_Enabled
@@ -12499,7 +12499,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677476252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.033188, y: 0.77336884, z: 70.013855}
+  m_LocalPosition: {x: -10.829874, y: 4.5580034, z: 7.661312}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755089781}
@@ -16725,7 +16725,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1971025884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 29.033188, y: 0.77336884, z: 70.013855}
+  m_LocalPosition: {x: -10.829874, y: 4.5580034, z: 7.661312}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 337723898}
@@ -17075,3 +17075,4 @@ MonoBehaviour:
   GunOffset: 0.5
   laser: {fileID: 1391649977622142, guid: 090d54c057af6794eb820e25d0894342, type: 2}
   Cooldown: 0.5
+  trackedObj: {fileID: 0}

@@ -29,10 +29,21 @@ public class GunModule : ControlModule
 
     float spinModifier = 0.9f;
 
+    public SteamVR_TrackedObject trackedObj;
+
+    public SteamVR_Controller.Device device;
+
+    public SteamVR_Controller.Device rightDevice;
+    public SteamVR_Controller.Device leftDevice;
+
     // Use this for initialization
     void Start () {
         cooldownDelay = new WaitForSeconds(Cooldown);
-	}
+        int leftIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost);
+        int rightIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Rightmost);
+        leftDevice = SteamVR_Controller.Input(leftIndex);
+        rightDevice = SteamVR_Controller.Input(rightIndex);
+    }
 
     public enum LeftRight
     {
@@ -48,11 +59,13 @@ public class GunModule : ControlModule
         {
             angleDegrees += angleL;
             laserPos -= GunOffset * Vector3.right;
+
         }
         else
         {
             angleDegrees += angleR;
             laserPos += GunOffset * Vector3.right;
+
         }
         Vector3 finalPosition = userConsole.transform.rotation * laserPos;
 
@@ -60,6 +73,9 @@ public class GunModule : ControlModule
         g.transform.position = ship.position + finalPosition + Vector3.down;
         g.transform.rotation = Quaternion.Euler(0, angleDegrees, 0);
         g.SetActive(true);
+        device = SteamVR_Controller.Input((int)trackedObj.index);
+        device.TriggerHapticPulse(750);
+
     }
 
     IEnumerator Shoot(LeftRight lr)
@@ -86,7 +102,16 @@ public class GunModule : ControlModule
         angleR = rightJoystick.outAngle * spinModifier;
 
         // TODO: Check if we're holding down the trigger
+
+    }
+
+    private void LeftTriggerPressed(object sender, ClickedEventArgs e)
+    {
         StartCoroutine(Shoot(LeftRight.Left));
+    }
+
+    private void RightTriggerPressed(object sender, ClickedEventArgs e)
+    {
         StartCoroutine(Shoot(LeftRight.Right));
-	}
+    }
 }
