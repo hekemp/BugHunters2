@@ -29,20 +29,16 @@ public class GunModule : ControlModule
 
     float spinModifier = 0.9f;
 
-    public SteamVR_TrackedObject trackedObj;
 
-    public SteamVR_Controller.Device device;
+    public Valve.VR.InteractionSystem.Hand hand;
+    public Valve.VR.InteractionSystem.Hand hand2;
 
-    public SteamVR_Controller.Device rightDevice;
-    public SteamVR_Controller.Device leftDevice;
+    public Valve.VR.InteractionSystem.Interactable leftGun;
+    public Valve.VR.InteractionSystem.Interactable rightGun;
 
     // Use this for initialization
     void Start () {
         cooldownDelay = new WaitForSeconds(Cooldown);
-        int leftIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost);
-        int rightIndex = SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Rightmost);
-        leftDevice = SteamVR_Controller.Input(leftIndex);
-        rightDevice = SteamVR_Controller.Input(rightIndex);
     }
 
     public enum LeftRight
@@ -73,17 +69,17 @@ public class GunModule : ControlModule
         g.transform.position = ship.position + finalPosition + Vector3.down;
         g.transform.rotation = Quaternion.Euler(0, angleDegrees, 0);
         g.SetActive(true);
-        device = SteamVR_Controller.Input((int)trackedObj.index);
-        device.TriggerHapticPulse(750);
 
     }
 
-    IEnumerator Shoot(LeftRight lr)
+    IEnumerator Shoot(LeftRight lr, Valve.VR.InteractionSystem.Hand h)
     {
         if (canShootL && lr == LeftRight.Left)
         {
             canShootL = false;
             _Shoot(lr);
+            h.controller.TriggerHapticPulse(3000);
+            h.controller.TriggerHapticPulse(1500);
             yield return cooldownDelay;
             canShootL = true;
         }
@@ -91,6 +87,8 @@ public class GunModule : ControlModule
         {
             canShootR = false;
             _Shoot(lr);
+            h.controller.TriggerHapticPulse(3000);
+            h.controller.TriggerHapticPulse(1500);
             yield return cooldownDelay;
             canShootR = true;
         }
@@ -101,17 +99,32 @@ public class GunModule : ControlModule
         angleL = leftJoystick.outAngle * spinModifier;
         angleR = rightJoystick.outAngle * spinModifier;
 
-        // TODO: Check if we're holding down the trigger
+        handleTriggerPulls(hand);
+        handleTriggerPulls(hand2);
 
     }
 
-    private void LeftTriggerPressed(object sender, ClickedEventArgs e)
+    private void handleTriggerPulls(Valve.VR.InteractionSystem.Hand h)
     {
-        StartCoroutine(Shoot(LeftRight.Left));
+        // (Button was pressed (initial cilck only)|| button is being held down)
+        if (h.controller != null && (h.controller.GetPressDown(SteamVR_Controller.ButtonMask.Trigger) || h.controller.GetPress(SteamVR_Controller.ButtonMask.Trigger)))
+        {
+            if (h.hoveringInteractable == rightGun)
+            {
+                StartCoroutine(Shoot(LeftRight.Right, h));
+            }
+
+            if (h.hoveringInteractable == leftGun)
+            {
+                StartCoroutine(Shoot(LeftRight.Left, h));
+            }
+        }
+
+        if (h.controller != null && h.controller.GetPressUp(SteamVR_Controller.ButtonMask.Trigger))
+        {
+            Debug.Log("Trigger released");
+        }
     }
 
-    private void RightTriggerPressed(object sender, ClickedEventArgs e)
-    {
-        StartCoroutine(Shoot(LeftRight.Right));
-    }
+
 }
