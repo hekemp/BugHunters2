@@ -4,15 +4,37 @@ using UnityEngine;
 
 public class ControlModuleManager : MonoBehaviour {
 
-    public SteeringModule SteeringModule;
+    public static ControlModuleManager Instance;
+
+    public List<ControlModule> ControlModules = new List<ControlModule>();
+
+    public int ActiveIndex;
 
 	// Use this for initialization
 	void Start () {
-        SteeringModule.MakeActive();
+        Instance = this;
+        ActiveIndex = 0;
+        UpdateModules();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void Swap()
+    {
+        ActiveIndex = (ActiveIndex + 1) % ControlModules.Count;
+        UpdateModules();
+    }
+
+    void UpdateModules()
+    {
+        for(int i = 0; i < ControlModules.Count; i++)
+        {
+            if (i == ActiveIndex)
+            {
+                ControlModules[i].MakeActive();
+            }
+            else
+            {
+                ControlModules[i].MakeInactive();
+            }
+        }
+    }
 }
