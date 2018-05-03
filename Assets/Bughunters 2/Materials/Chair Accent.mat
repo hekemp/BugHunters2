@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Chair Accent
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: f67c1149a8b3c2e41810a8843586ed32, type: 3}
   m_ShaderKeywords: S_RECEIVE_SHADOWS S_SPECULAR_METALLIC
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -70,6 +70,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FogMultiplier: 1
+    - _Gloss: 0.2820513
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -97,7 +98,7 @@ Material:
     - g_flReflectanceMin: 0
     - g_flReflectanceScale: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.93610543, b: 0.07352942, a: 1}
+    - _Color: {r: 0.3331531, g: 0.3451124, b: 0.5808823, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - g_vWorldAlignedNormalTangentU: {r: -1, g: 0, b: 0, a: 0}

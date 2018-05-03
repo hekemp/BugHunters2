@@ -37,7 +37,7 @@ public class ObjectPooler : MonoBehaviour {
         {
             if (!pooledObjects[i].activeInHierarchy)
             {
-                //Debug.Log(" - SAVED");
+                Debug.Log(" - SAVED");
                 return pooledObjects[i];
             }
         }
